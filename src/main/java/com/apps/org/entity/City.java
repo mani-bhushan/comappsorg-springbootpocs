@@ -6,7 +6,6 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,12 +15,12 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "city", uniqueConstraints = @UniqueConstraint(columnNames = {"city_id"}) )
-public class City extends BaseEntity implements Serializable {
+public class City extends Auditable<String> implements Serializable {
 
 	private static final long serialVersionUID = 4926468583005150705L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="GSN_SEQ")
+	@GeneratedValue(generator="gsn_seq")
 	@Column(name = "city_id", unique=true, nullable = false)
 	private Long cityId;
 	
@@ -33,8 +32,16 @@ public class City extends BaseEntity implements Serializable {
 	@Column(name = "zip_code", unique=true, nullable=false)
 	private Integer zipCode;
 	
+	@NotNull
+	@Column(name = "std_code", unique=true, nullable=false)
+	private Integer stdCode;
+	
+	@NotNull
+	@Column(name = "sub_division_code")
+	private Integer subDivisionCode; 		//cityId of division
+	
 	@ManyToOne	// Many cities can be associated with One State.
-	@JoinColumn(name="state_id")
+	@JoinColumn(name="state_id", referencedColumnName = "state_id")
 	private State state;
 
 	public Long getCityId() {
@@ -69,9 +76,25 @@ public class City extends BaseEntity implements Serializable {
 		this.state = state;
 	}
 
+	public Integer getStdCode() {
+		return stdCode;
+	}
+
+	public void setStdCode(Integer stdCode) {
+		this.stdCode = stdCode;
+	}
+
+	public Integer getSubDivisionCode() {
+		return subDivisionCode;
+	}
+
+	public void setSubDivisionCode(Integer subDivisionCode) {
+		this.subDivisionCode = subDivisionCode;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(cityId, cityName, state, zipCode);
+		return Objects.hash(cityId, cityName, zipCode);
 	}
 
 	@Override
@@ -82,7 +105,7 @@ public class City extends BaseEntity implements Serializable {
 			return false;
 		City other = (City) obj;
 		return Objects.equals(cityId, other.cityId) && Objects.equals(cityName, other.cityName)
-				&& Objects.equals(state, other.state) && Objects.equals(zipCode, other.zipCode);
+				&& Objects.equals(zipCode, other.zipCode);
 	}
 
 	@Override

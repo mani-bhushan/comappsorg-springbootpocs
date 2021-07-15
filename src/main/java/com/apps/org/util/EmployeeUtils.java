@@ -31,71 +31,67 @@ public class EmployeeUtils {
 		employee.setHireDate(DateUtils.convertStringToUtilDate(employeeRequest.getHireDate()));
 		employee.setGender(employeeRequest.getGender());
 		employee.setDesignation(employeeRequest.getDesignation());
-		employee.setIsActive((employeeRequest.getIsActive().equals(AppConstants.Y.value)));
-		employee.setCreatedBy(employeeRequest.getCreatedBy());
-		employee.setCreatedOn(DateUtils.convertStringToUtilDate(employeeRequest.getCretedOn()));
-		employee.setUpdatedBy(employeeRequest.getUpdatedBy());
-		employee.setUpdatedOn(DateUtils.convertStringToUtilDate(employeeRequest.getUpdatedOn()));
-		employee.setAddressList(populateAddressEntityFromEmployeeRequest(employeeRequest));
+		employee.setNationality(employeeRequest.getNationality().toUpperCase());
+		employee.setIsActive(AppConstants.Y.stringValue.equalsIgnoreCase(employeeRequest.getIsActive()));
+		employee.setStartDate(DateUtils.convertStringToUtilDate(employeeRequest.getStartDate()));
+		employee.setDueDate(DateUtils.convertStringToUtilDate(employeeRequest.getDueDate()));
+		employee.setEndDate(DateUtils.convertStringToUtilDate(employeeRequest.getEndDate()));
+		employee.setAddressList(populateAddressEntityFromEmployeeRequest(employeeRequest, employee));
+		
 		return employee;
 	}
 	
-	public static Set<Address> populateAddressEntityFromEmployeeRequest(EmployeeIOModel employeeRequest) {
+	public static Set<Address> populateAddressEntityFromEmployeeRequest(EmployeeIOModel employeeRequest, Employee employee) {
+		
 		Set<Address> addressList = new HashSet<Address>();
 		employeeRequest.getAddress().forEach(addressReq -> {
+			
 			Address address = new Address();
 			address.setAddressLine(addressReq.getAddressLine());
 			address.setHouseNumber(addressReq.getHouseNumber());
 			address.setStreetName(addressReq.getStreetName());
+			address.setCity(addressReq.getCity());
+			address.setState(addressReq.getState());
+			address.setCountry(addressReq.getCountry());
+			address.setStdCode(addressReq.getStdCode());
+			address.setTelephone(addressReq.getTelephone());
 			address.setLat(addressReq.getLat());
 			address.setLon(addressReq.getLon());
-			address.setMobile(addressReq.getMobbile());
-			address.setCountry(populateCountryEntityFromAddressModel(addressReq));
-			address.setState(populateStateEntityFromAddressModel(addressReq));
-			address.setCity(populateCityEntityFromAddressModel(addressReq));
+			address.setCountryCode(addressReq.getCountryCode());
+			address.setMobile(addressReq.getMobile());
+			address.setEmployee(employee);
+			address.setIsPrimary(AppConstants.Y.stringValue.equalsIgnoreCase(addressReq.getIsPrimary()));
+			
 			addressList.add(address);
 			
 		});
+		
 		return addressList;
-	}
-	
-	public static Country populateCountryEntityFromAddressModel(AddressModel addressReq) {
-		Country country = new Country();
-		country.setCountryName(addressReq.getCountry());
-		country.setCountryCode(addressReq.getCountryCode());
-		return country;
-	}
-	
-	public static State populateStateEntityFromAddressModel(AddressModel addressReq) {
-		State state = new State();
-		state.setStateName(addressReq.getState());
-		return state;
 	}
 	
 	public static City populateCityEntityFromAddressModel(AddressModel addressReq) {
 		City city = new City();
 		city.setCityName(addressReq.getCity());
 		city.setZipCode(addressReq.getZipCode());
+		city.setStdCode(addressReq.getStdCode());
+		city.setState(populateStateEntityFromAddressModel(addressReq));
 		return city;
 	}
 	
-	/*
-	 * public static Country
-	 * populateCountryEntityListFromEmployeeRequest(AddressModel addressReq) {
-	 * Country country = new Country();
-	 * country.setCountryName(addressReq.getCountry());
-	 * country.setCountryCode(addressReq.getCountryCode()); return country; }
-	 * 
-	 * public static Set<State>
-	 * populateStateEntityListFromEmployeeRequest(EmployeeIOModel employeeRequest) {
-	 * Set<State> stateList = new HashSet<State>(); State state = new State();
-	 * stateList.add(state); return stateList; }
-	 * 
-	 * public static Set<City>
-	 * populateCityEntityListFromEmployeeRequest(EmployeeIOModel employeeRequest) {
-	 * Set<City> cityList = new HashSet<City>(); City city = new City();
-	 * cityList.add(city); return cityList; }
-	 */
+	public static State populateStateEntityFromAddressModel(AddressModel addressReq) {
+		State state = new State();
+		state.setStateName(addressReq.getState());
+		state.setCountry(populateCountryEntityFromAddressModel(addressReq));
+		return state;
+	}
+	
+	public static Country populateCountryEntityFromAddressModel(AddressModel addressReq) {
+		Country country = new Country();
+		country.setCountryName(addressReq.getCountry());
+		country.setCountryCode(addressReq.getCountryCode());
+		//country.setOriginName(req.getNation());
+		return country;
+	}
 
 	public static PageResponse populateResponse(List<Employee> employees) {
 		PageResponse pageResponse = new PageResponse();
@@ -176,7 +172,6 @@ public class EmployeeUtils {
 	public static boolean validateAddEmployeeRequest(EmployeeIOModel requestObj, ErrorResponse errorResponse) {
 		
 		StringBuffer errorData = new StringBuffer();
-
 		if (StringUtils.isBlank(requestObj.getEmpName())) {
 			errorData.append("Employee Name, ");
 		}
@@ -187,15 +182,39 @@ public class EmployeeUtils {
 			errorData.append("Gender, ");
 		}
 		if (StringUtils.isBlank(requestObj.getDesignation())) {
-			errorData.append("Designation, ");
+			errorData.append("Designation : Please provide designation, ");
 		}
 		if (StringUtils.isBlank(requestObj.getHireDate())) {
-			errorData.append("Hire Date, ");
+			errorData.append("Hire Date : Please provide date of hiring, ");
+		}
+		if (StringUtils.isBlank(requestObj.getNationality())) {
+			errorData.append("Nationality : Please provide nationality, ");
+		}
+		if (StringUtils.isBlank(requestObj.getIsActive())
+				|| ! ( AppConstants.Y.stringValue.equalsIgnoreCase(requestObj.getIsActive()) 
+						|| AppConstants.N.stringValue.equalsIgnoreCase(requestObj.getIsActive()))) {
+			errorData.append("Is Active : Please provide active status, ");
 		}
 		if (CollectionUtils.isEmpty(requestObj.getAddress())) {
-			errorData.append("Address, ");
+			errorData.append("Address : Please provide an address, ");
 		}
 		requestObj.getAddress().forEach(address -> {
+			
+			if ( AppConstants.ONE.integerValue == requestObj.getAddress().size()) {
+				if ( StringUtils.isBlank(address.getIsPrimary())
+						|| ( ! AppConstants.Y.stringValue.equalsIgnoreCase(address.getIsPrimary()))) {
+					errorData.append("IsPrimary : Please provide a primary address, ");
+				}
+			}
+			
+//			if (StringUtils.isBlank(address.getIsPrimary())) {
+//				if (AppConstants.ONE.integerValue == requestObj.getAddress().size()) {
+//					address.setIsPrimary(AppConstants.Y.stringValue);
+//				} else {
+//					address.setIsPrimary(AppConstants.N.stringValue);
+//				}
+//			}
+
 			if (StringUtils.isBlank(address.getAddressLine())) {
 				errorData.append("Address Line, ");
 			}
@@ -220,10 +239,10 @@ public class EmployeeUtils {
 			if (address.getCountryCode() < 0) {
 				errorData.append("CountryCode<0, ");
 			}
-			if (null == address.getMobbile()) {
+			if (null == address.getMobile()) {
 				errorData.append("MobileNumber, ");
 			}
-			if (address.getMobbile() < 0) {
+			if (address.getMobile() < 0) {
 				errorData.append("MobileNumber<0, ");
 			}
 			if (null == address.getZipCode()) {

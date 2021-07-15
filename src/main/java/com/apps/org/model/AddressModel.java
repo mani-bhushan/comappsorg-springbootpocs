@@ -26,8 +26,8 @@ public class AddressModel {
 	@JsonProperty("countryCode")
 	private Integer countryCode;
 	
-	@JsonProperty("mobbile")
-	private Long mobbile;
+	@JsonProperty("mobile")
+	private Long mobile;
 	
 	@JsonProperty("country")
 	private String country;
@@ -40,6 +40,16 @@ public class AddressModel {
 	
 	@JsonProperty("zipCode")
 	private Integer zipCode;
+	
+	@JsonProperty("isPrimary")
+	private String isPrimary;
+	
+	@JsonProperty("stdCode")
+	private Integer stdCode;
+	
+	@JsonProperty("telephone")
+	private Long telephone;
+	
 
 	public String getAddressLine() {
 		return addressLine;
@@ -89,12 +99,12 @@ public class AddressModel {
 		this.countryCode = countryCode;
 	}
 
-	public Long getMobbile() {
-		return mobbile;
+	public Long getMobile() {
+		return mobile;
 	}
 
-	public void setMobbile(Long mobbile) {
-		this.mobbile = mobbile;
+	public void setMobile(Long mobile) {
+		this.mobile = mobile;
 	}
 
 	public String getCountry() {
@@ -128,10 +138,34 @@ public class AddressModel {
 	public void setZipCode(Integer zipCode) {
 		this.zipCode = zipCode;
 	}
+	
+	public String getIsPrimary() {
+		return isPrimary;
+	}
+
+	public void setIsPrimary(String isPrimary) {
+		this.isPrimary = isPrimary;
+	}
+
+	public Integer getStdCode() {
+		return stdCode;
+	}
+
+	public void setStdCode(Integer stdCode) {
+		this.stdCode = stdCode;
+	}
+
+	public Long getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(Long telephone) {
+		this.telephone = telephone;
+	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(addressLine, city, country, countryCode, houseNumber, lat, lon, mobbile, state, streetName, zipCode);
+		return Objects.hash(addressLine, city, country, countryCode, houseNumber, lat, lon, mobile, state, streetName, zipCode, isPrimary);
 	}
 
 	@Override
@@ -144,18 +178,22 @@ public class AddressModel {
 		return Objects.equals(addressLine, other.addressLine) && Objects.equals(city, other.city)
 				&& Objects.equals(country, other.country) && Objects.equals(countryCode, other.countryCode)
 				&& Objects.equals(houseNumber, other.houseNumber) && Objects.equals(lat, other.lat)
-				&& Objects.equals(lon, other.lon) && Objects.equals(mobbile, other.mobbile)
+				&& Objects.equals(lon, other.lon) && Objects.equals(mobile, other.mobile)
 				&& Objects.equals(state, other.state) && Objects.equals(streetName, other.streetName)
-				&& Objects.equals(zipCode, other.zipCode);
+				&& Objects.equals(zipCode, other.zipCode) && Objects.equals(isPrimary, other.isPrimary)
+				&& Objects.equals(stdCode, other.stdCode) && Objects.equals(telephone, other.telephone);
 	}
 
 	@Override
 	public String toString() {
 		StringBuffer builder = new StringBuffer("Address { ")
 				.append("addressLine=").append(addressLine).append(", houseNumber=").append(houseNumber)
-				.append(", streetName=").append(streetName).append(", lat=").append(lat).append(", lon=").append(lon)
-				.append(", countryCode=").append(countryCode).append(", mobbile=").append(mobbile).append(", country=")
-				.append(country).append(", state=").append(state).append(", city=").append(city).append(", zipCode=").append(zipCode).append(" }");
+				.append(", streetName=").append(streetName).append(", lat=").append(lat)
+				.append(", lon=").append(lon).append(", countryCode=").append(countryCode)
+				.append(", mobile=").append(mobile).append(", country=").append(country)
+				.append(", state=").append(state).append(", city=").append(city)
+				.append(", zipCode=").append(zipCode).append(", isPrimary=").append(isPrimary)
+				.append(" }");
 		return builder.toString();
 	}
 		

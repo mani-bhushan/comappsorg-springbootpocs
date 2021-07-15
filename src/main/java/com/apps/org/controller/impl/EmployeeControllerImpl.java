@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.apps.org.controller.EmployeeController;
 import com.apps.org.entity.Employee;
-import com.apps.org.handler.CustomExceptionHandler;
+import com.apps.org.exceptions.handler.CustomExceptionHandler;
 import com.apps.org.model.request.EmployeeRequest;
 import com.apps.org.model.response.PageResponse;
 import com.apps.org.service.EmployeeService;

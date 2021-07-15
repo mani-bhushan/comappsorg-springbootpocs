@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +33,7 @@ public class Employee extends BaseEntity implements Serializable {
 			name = "emp_seq", 
 			strategy = "com.apps.org.entity.generators.EmployeeSequenceIdGenerator",
 		    parameters = {
-		    		@Parameter(name = EmployeeSequenceIdGenerator.INCREMENT_PARAM, value = "50"),
+		    		@Parameter(name = EmployeeSequenceIdGenerator.INCREMENT_PARAM, value = "1"),
 		    		@Parameter(name = EmployeeSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "EMP_"),
 		    		@Parameter(name = EmployeeSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d") })
 	@Column(name = "emp_id", unique=true, nullable=false)
@@ -59,10 +60,14 @@ public class Employee extends BaseEntity implements Serializable {
 	private String designation;
 	
 	@NotNull
+	@Column(name = "nationality", nullable=false)
+	private String nationality;
+	
+	@NotNull
 	@Column(name = "is_active", nullable=false)
 	private Boolean isActive;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="employee", orphanRemoval = false) 	// One employee can have multiple address.
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="employee", fetch = FetchType.LAZY, orphanRemoval = false) 	// One employee can have multiple address.
 	private Set<Address> addressList;
 
 	public String getEmpId() {
@@ -128,10 +133,18 @@ public class Employee extends BaseEntity implements Serializable {
 	public void setAddressList(Set<Address> addressList) {
 		this.addressList = addressList;
 	}
+	
+	public String getNationality() {
+		return nationality;
+	}
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(addressList, birthDate, designation, empId, empName, gender, hireDate, isActive);
+		return Objects.hash(birthDate, designation, empId, empName, gender, hireDate, isActive, nationality);
 	}
 
 	@Override
@@ -141,19 +154,21 @@ public class Employee extends BaseEntity implements Serializable {
 		if (!(obj instanceof Employee))
 			return false;
 		Employee other = (Employee) obj;
-		return Objects.equals(addressList, other.addressList) && Objects.equals(birthDate, other.birthDate)
-				&& Objects.equals(designation, other.designation) && Objects.equals(empId, other.empId)
+		return Objects.equals(birthDate, other.birthDate) && Objects.equals(designation, other.designation) 
 				&& Objects.equals(empName, other.empName) && Objects.equals(gender, other.gender)
-				&& Objects.equals(hireDate, other.hireDate) && Objects.equals(isActive, other.isActive);
+				&& Objects.equals(hireDate, other.hireDate) && Objects.equals(isActive, other.isActive)
+				&& Objects.equals(nationality, other.nationality) && Objects.equals(empId, other.empId);
 	}
 
 	@Override
 	public String toString() {
 		StringBuffer builder = new StringBuffer("Employee { ")
-				.append("empId=").append(empId).append(", empName=").append(empName).append(", birthDate=")
-				.append(birthDate).append(", hireDate=").append(hireDate).append(", gender=").append(gender)
-				.append(", designation=").append(designation).append(", isActive=").append(isActive)
-				.append(", addressList=").append(addressList).append(" }");
+				.append("empId=").append(empId).append(", empName=").append(empName)
+				.append(", birthDate=").append(birthDate).append(", hireDate=").append(hireDate)
+				.append(", gender=").append(gender).append(", designation=").append(designation)
+				.append(", isActive=").append(isActive).append(", nationality=").append(nationality)
+				.append(", addressList=").append(addressList)
+				.append(" }");
 		return builder.toString();
 	}
 

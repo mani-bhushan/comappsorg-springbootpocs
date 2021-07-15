@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.apps.org.dao.UserDao;
 import com.apps.org.entity.DAOUser;
+import com.apps.org.exceptions.UserNameFoundException;
 import com.apps.org.model.UserDTO;
 
 
@@ -31,17 +32,25 @@ public class JwtUserDetailsService implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found with username: " + username);
 		}
-		return new User(user.getUsername(), user.getPassword(),
+		return new User (
+				user.getUsername(), 
+				user.getPassword(),
 				new ArrayList<>());
 		
 		
 	}
 
-	public DAOUser save(UserDTO user) {
-		DAOUser newUser = new DAOUser();
-		newUser.setUsername(user.getUsername());
-		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-		return userDao.save(newUser);
+	public DAOUser save(UserDTO user) throws UserNameFoundException {
+		
+		DAOUser newUser = userDao.findByUsername(user.getUsername());
+		if (newUser != null) {
+			throw new UserNameFoundException("User found with username: " + user.getUsername());
+		} else {
+			newUser = new DAOUser();
+			newUser.setUsername(user.getUsername());
+			newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+			return userDao.save(newUser);
+		}
 	}
 
 }

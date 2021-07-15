@@ -3,8 +3,9 @@ package com.apps.org.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.apps.org.dao.EmployeeRepository;
 import com.apps.org.entity.Employee;
-import com.apps.org.handler.CustomExceptionHandler;
+import com.apps.org.exceptions.handler.CustomExceptionHandler;
 import com.apps.org.model.EmployeeIOModel;
 import com.apps.org.model.Errors;
 import com.apps.org.model.request.EmployeeRequest;
@@ -47,7 +48,7 @@ public class EmployeeService {
 
 	}
 
-	//@Transactional
+	@Transactional(rollbackOn = Exception.class)
 	public PageResponse addNewEmployee(EmployeeRequest employeeRequest) {
 
 		PageResponse pageResponse = new PageResponse();
@@ -71,8 +72,13 @@ public class EmployeeService {
 		}
 		try {
 			if (CollectionUtils.isNotEmpty(employees)) {
-				Iterable<Employee> employeesSaved = repository.saveAll(employees);
-				List<Employee> savedEmployees = IterableUtils.toList(employeesSaved);
+				List<Employee> savedEmployees = new ArrayList<Employee>();
+				employees.forEach(employee -> {
+					Employee savedEmployee = repository.saveAndFlush(employee);
+					savedEmployees.add(savedEmployee);
+				});
+//				 Iterable<Employee> employeesSaved = repository.saveAll(employees);
+//				 List<Employee> savedEmployees = IterableUtils.toList(employeesSaved);
 				EmployeeResponse employeeResponse = EmployeeUtils.populateEmployeeResponse(savedEmployees);
 				pageResponse.setEmployeeResponse(employeeResponse);
 			}

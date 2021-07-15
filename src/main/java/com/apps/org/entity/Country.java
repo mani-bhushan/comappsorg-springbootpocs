@@ -8,8 +8,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -17,34 +15,27 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "country", uniqueConstraints = @UniqueConstraint(columnNames = {"country_id"}) )
-public class Country extends BaseEntity implements Serializable {
+@Table(name = "country", uniqueConstraints = @UniqueConstraint(columnNames = {"country_code"}) )
+public class Country extends Auditable<String> implements Serializable {
 
 	private static final long serialVersionUID = 4926468583005150703L;
-	
+		
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="GSN_SEQ")
-	@Column(name = "country_id", unique=true, nullable = false)
-	private Long countryId;
+	@NotNull
+	@Column(name = "country_code", unique=true, nullable=false)
+	private Integer countryCode;
 	
 	@NotNull
 	@Column(name = "country_name", unique=true, nullable=false)
 	private String countryName;
 	
 	@NotNull
-	@Column(name = "country_code", unique=true, nullable=false)
-	private Integer countryCode;
+	@Column(name = "origin_name", unique=true, nullable=false)
+	private String originName;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="country", orphanRemoval = false)
 	private Set<State> states;
 
-	public Long getCountryId() {
-		return countryId;
-	}
-
-	public void setCountryId(Long countryId) {
-		this.countryId = countryId;
-	}
 
 	public String getCountryName() {
 		return countryName;
@@ -62,6 +53,14 @@ public class Country extends BaseEntity implements Serializable {
 		this.countryCode = countryCode;
 	}
 
+	public String getOriginName() {
+		return originName;
+	}
+
+	public void setOriginName(String originName) {
+		this.originName = originName;
+	}
+
 	public Set<State> getStates() {
 		return states;
 	}
@@ -72,7 +71,7 @@ public class Country extends BaseEntity implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(countryCode, countryId, countryName, states);
+		return Objects.hash(countryCode, countryName, originName);
 	}
 
 	@Override
@@ -82,15 +81,16 @@ public class Country extends BaseEntity implements Serializable {
 		if (!(obj instanceof Country))
 			return false;
 		Country other = (Country) obj;
-		return Objects.equals(countryCode, other.countryCode) && Objects.equals(countryId, other.countryId)
-				&& Objects.equals(countryName, other.countryName) && Objects.equals(states, other.states);
+		return Objects.equals(countryCode, other.countryCode) && Objects.equals(countryName, other.countryName)
+				&& Objects.equals(originName, other.originName);
 	}
 
 	@Override
 	public String toString() {
 		StringBuffer builder = new StringBuffer("Country { ")
-				.append("countryId=").append(countryId).append(", countryName=").append(countryName)
-				.append(", countryCode=").append(countryCode).append(", states=").append(states).append(" }");
+				.append(", countryName=").append(countryName).append(", countryCode=").append(countryCode)
+				.append(", originName=").append(originName)
+				.append(" }");
 		return builder.toString();
 	}
 

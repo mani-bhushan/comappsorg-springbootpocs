@@ -6,89 +6,73 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @MappedSuperclass
-public abstract class BaseEntity implements Serializable{
+public abstract class BaseEntity extends Auditable<String> implements Serializable {
 	
 	private static final long serialVersionUID = 4926468583005150706L;
+
 	
-	@Column(name = "created_by")
-	private String createdBy;
+	@Column(name = "start_date")
+    private Date startDate;
     
-	@Column(name = "updated_by")
-	private String updatedBy;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_on")
-	private Date createdOn;
- 
-	@Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_on")
-    private Date updatedOn;
+	@Column(name = "end_date")
+	protected Date endDate;
 	
-	protected void copy(final BaseEntity source) {
-        this.createdBy = source.createdBy;
-        this.updatedBy = source.updatedBy;
-        this.createdOn = source.createdOn;
-        this.updatedOn = source.updatedOn;
-    }
+	@Column(name = "due_date")
+	protected Date dueDate;
 
-	public String getCreatedBy() {
-		return createdBy;
+	public Date getStartDate() {
+		return startDate;
 	}
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
-	public String getUpdatedBy() {
-		return updatedBy;
+	public Date getEndDate() {
+		return endDate;
 	}
 
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy;
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
-	public Date getCreatedOn() {
-		return createdOn;
+	public Date getDueDate() {
+		return dueDate;
 	}
 
-	public void setCreatedOn(Date createdOn) {
-		this.createdOn = createdOn;
-	}
-
-	public Date getUpdatedOn() {
-		return updatedOn;
-	}
-
-	public void setUpdatedOn(Date updatedOn) {
-		this.updatedOn = updatedOn;
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(createdBy, createdOn, updatedBy, updatedOn);
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(dueDate, endDate, startDate);
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
+		if (!super.equals(obj))
+			return false;
 		if (!(obj instanceof BaseEntity))
 			return false;
 		BaseEntity other = (BaseEntity) obj;
-		return Objects.equals(createdBy, other.createdBy) && Objects.equals(createdOn, other.createdOn)
-				&& Objects.equals(updatedBy, other.updatedBy) && Objects.equals(updatedOn, other.updatedOn);
+		return Objects.equals(dueDate, other.dueDate) && Objects.equals(endDate, other.endDate)
+				&& Objects.equals(startDate, other.startDate);
 	}
 
 	@Override
 	public String toString() {
-		StringBuffer builder = new StringBuffer("BaseEntity { ")
-				.append("createdBy=").append(createdBy).append(", updatedBy=").append(updatedBy)
-				.append(", createdOn=").append(createdOn).append(", updatedOn=").append(updatedOn).append(" }");
+		StringBuilder builder = new StringBuilder();
+		builder.append("BaseEntity [startDate=").append(startDate).append(", endDate=").append(endDate)
+				.append(", dueDate=").append(dueDate).append("]");
 		return builder.toString();
 	}
-    
+	
 }

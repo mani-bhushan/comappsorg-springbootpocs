@@ -3,40 +3,61 @@ package com.apps.org.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "address", uniqueConstraints = @UniqueConstraint(columnNames = {"address_id"}) )
-public class Address extends BaseEntity implements Serializable {
+public class Address extends Auditable<String> implements Serializable {
 
 	private static final long serialVersionUID = 4926468583005150702L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="GSN_SEQ")
+	@GeneratedValue(generator="gsn_seq")
 	@Column(name = "address_id", unique=true, nullable = false)
 	private Long addressId;
 	
 	@NotNull
-	@Column(name = "address_line")
+	@Column(name = "address_line", nullable = false)
 	private String addressLine;
 	
 	@Column(name = "house_number")
 	private String houseNumber;
 	
-	@Column(name = "street_name")
+	@Column(name = "street_name", nullable = false)
 	private String streetName;
+	
+	@NotNull
+	@Column(name = "country", nullable = false)
+	private String country;
+	
+	@NotNull
+	@Column(name = "state", nullable = false)
+	private String state;
+	
+	@NotNull
+	@Column(name = "city", nullable = false)
+	private String city;
+
+	@NotNull
+	@Column(name = "country_code", nullable = false)
+	private Integer countryCode;
+	
+	@Column(name = "mobile", nullable = false)
+	private Long mobile;
+	
+	@Column(name = "std_code")
+	private Integer stdCode;
+	
+	@Column(name = "telephone")
+	private Long telephone;
 	
 	@Column(name = "lat")
 	private String lat;
@@ -44,24 +65,14 @@ public class Address extends BaseEntity implements Serializable {
 	@Column(name = "lon")
 	private String lon;
 	
-	@Column(name = "mobile")
-	private Long mobile;
+	@NotNull
+	@Column(name = "is_primary", nullable = false)
+	private Boolean isPrimary;
 	
 	@ManyToOne 	//Many address can be associated with One employee
-	@JoinColumn(name="emp_id")
+	@JoinColumn(name="emp_id", referencedColumnName = "emp_id")
 	private Employee employee;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="country_code", nullable=false)
-	private Country country;
-	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="state_id", nullable=false)
-	private State state;
-	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name="city_id", nullable=false)
-	private City city;
 
 	public Long getAddressId() {
 		return addressId;
@@ -126,35 +137,69 @@ public class Address extends BaseEntity implements Serializable {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
+	
+	public Boolean getIsPrimary() {
+		return isPrimary;
+	}
 
-	public Country getCountry() {
+	public void setIsPrimary(Boolean isPrimary) {
+		this.isPrimary = isPrimary;
+	}
+
+	public String getCountry() {
 		return country;
 	}
 
-	public void setCountry(Country country) {
+	public void setCountry(String country) {
 		this.country = country;
 	}
 
-	public State getState() {
+	public String getState() {
 		return state;
 	}
 
-	public void setState(State state) {
+	public void setState(String state) {
 		this.state = state;
 	}
 
-	public City getCity() {
+	public String getCity() {
 		return city;
 	}
 
-	public void setCity(City city) {
+	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public Integer getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(Integer countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	public Integer getStdCode() {
+		return stdCode;
+	}
+
+	public void setStdCode(Integer stdCode) {
+		this.stdCode = stdCode;
+	}
+
+	public Long getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(Long telephone) {
+		this.telephone = telephone;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(addressId, addressLine, city, country, employee, houseNumber, lat, lon, mobile, state, streetName);
+		return Objects.hash(addressId, addressLine, streetName, city, state, country, countryCode);
 	}
+	
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -164,11 +209,10 @@ public class Address extends BaseEntity implements Serializable {
 			return false;
 		Address other = (Address) obj;
 		return Objects.equals(addressId, other.addressId) && Objects.equals(addressLine, other.addressLine)
-				&& Objects.equals(city, other.city) && Objects.equals(country, other.country)
-				&& Objects.equals(employee, other.employee) && Objects.equals(houseNumber, other.houseNumber)
-				&& Objects.equals(lat, other.lat) && Objects.equals(lon, other.lon)
-				&& Objects.equals(mobile, other.mobile) && Objects.equals(state, other.state)
-				&& Objects.equals(streetName, other.streetName);
+				&& Objects.equals(isPrimary, other.isPrimary) && Objects.equals(houseNumber, other.houseNumber)
+				&& Objects.equals(mobile, other.mobile) && Objects.equals(streetName, other.streetName)
+				&& Objects.equals(city, other.city) && Objects.equals(state, other.state)
+				&& Objects.equals(country, other.country) && Objects.equals(countryCode, other.countryCode);
 	}
 
 	@Override
@@ -177,8 +221,10 @@ public class Address extends BaseEntity implements Serializable {
 				.append("addressId=").append(addressId).append(", addressLine=").append(addressLine)
 				.append(", houseNumber=").append(houseNumber).append(", streetName=").append(streetName)
 				.append(", lat=").append(lat).append(", lon=").append(lon).append(", mobile=").append(mobile)
-				.append(", employee=").append(employee).append(", country=").append(country).append(", state=")
-				.append(state).append(", city=").append(city).append(" }");
+				.append(", employee=").append(employee).append(", isPrimary=").append(isPrimary)
+				.append(", state=").append(state).append(", city=").append(city).append(", country=").append(country)
+				.append(", stdCode=").append(stdCode).append(", telephone=").append(telephone)
+				.append(" }");
 		return buffer.toString();
 	}
 

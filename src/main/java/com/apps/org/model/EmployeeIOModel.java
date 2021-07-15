@@ -46,6 +46,17 @@ public class EmployeeIOModel {
 	@JsonProperty("address")
 	private List<AddressModel> address = null;
 	
+	@JsonProperty("startDate")
+	private String startDate;
+	
+	@JsonProperty("endDate")
+	private String endDate;
+	
+	@JsonProperty("dueDate")
+	private String dueDate;
+	
+	@JsonProperty("nationality")
+	private String nationality;
 	
 	
 	public EmployeeIOModel () {}
@@ -151,6 +162,38 @@ public class EmployeeIOModel {
 
 	public void setAddress(List<AddressModel> address) {
 		this.address = address;
+	}
+	
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(String dueDate) {
+		this.dueDate = dueDate;
+	}
+	
+	public String getNationality() {
+		return nationality;
+	}
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
 	}
 
 	@Override

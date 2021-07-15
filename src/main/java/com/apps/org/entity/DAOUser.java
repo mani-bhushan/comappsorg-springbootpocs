@@ -8,15 +8,17 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "user")
-public class DAOUser implements Serializable{
+public class DAOUser extends Auditable<String> implements Serializable {
 	
 	private static final long serialVersionUID = 4926468583005150701L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
 	@Column
 	private String username;
+	
 	@Column
 	@JsonIgnore
 	private String password;

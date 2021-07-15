@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,12 +19,12 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "state")
 // @UniqueConstraint(columnNames = {"state_id, country_code"}) 
-public class State extends BaseEntity implements Serializable {
+public class State extends Auditable<String> implements Serializable {
 
 	private static final long serialVersionUID = 4926468583005150704L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="GSN_SEQ")
+	@GeneratedValue(generator="gsn_seq")
 	@Column(name = "state_id", unique=true, nullable = false)
 	private Long stateId;
 
@@ -33,8 +32,12 @@ public class State extends BaseEntity implements Serializable {
 	@Column(name = "state_name", nullable=false)
 	private String stateName;
 	
+	@NotNull
+	@Column(name = "is_special", nullable=false)
+	private Boolean isSpecial;
+	
 	@ManyToOne 								// Many States can be associated with One Country.
-	@JoinColumn(name="country_code")
+	@JoinColumn(name="country_code", referencedColumnName = "country_code")
 	private Country country;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="state", orphanRemoval = false)		//One State can be associated with multiple cities.
@@ -72,9 +75,17 @@ public class State extends BaseEntity implements Serializable {
 		this.cities = cities;
 	}
 
+	public Boolean getIsSpecial() {
+		return isSpecial;
+	}
+
+	public void setIsSpecial(Boolean isSpecial) {
+		this.isSpecial = isSpecial;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(cities, country, stateId, stateName);
+		return Objects.hash( stateId, stateName, isSpecial );
 	}
 
 	@Override
@@ -84,15 +95,17 @@ public class State extends BaseEntity implements Serializable {
 		if (!(obj instanceof State))
 			return false;
 		State other = (State) obj;
-		return Objects.equals(cities, other.cities) && Objects.equals(country, other.country)
-				&& Objects.equals(stateId, other.stateId) && Objects.equals(stateName, other.stateName);
+		return Objects.equals(stateId, other.stateId) && Objects.equals(stateName, other.stateName)
+				&& Objects.equals(isSpecial, other.isSpecial);
 	}
 
 	@Override
 	public String toString() {
 		StringBuffer builder = new StringBuffer("State { ")
-				.append("stateId=").append(stateId).append(", stateName=").append(stateName).append(", country=")
-				.append(country).append(", cities=").append(cities).append(" }");
+				.append("stateId=").append(stateId).append(", stateName=").append(stateName)
+				.append(", isSpecial=").append(isSpecial)
+				.append(", country=").append(country).append(", cities=").append(cities)
+				.append(" }");
 		return builder.toString();
 	}
 	

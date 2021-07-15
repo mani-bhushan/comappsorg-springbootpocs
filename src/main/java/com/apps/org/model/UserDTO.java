@@ -4,6 +4,7 @@ public class UserDTO {
 	
 	private String username;
 	private String password;
+	private String createdBy;
 
 	public String getUsername() {
 		return username;
@@ -20,4 +21,14 @@ public class UserDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	
+	
 }

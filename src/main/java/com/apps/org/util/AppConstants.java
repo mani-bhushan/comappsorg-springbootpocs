@@ -4,12 +4,21 @@ package com.apps.org.util;
 public enum AppConstants {
 
 	Y ("Y"),
-	N ("N");
+	N ("N"),
+	ONE (1);
 
-	public final String value;
+	public final String stringValue;
 	
-	private AppConstants(String value) {
-        this.value = value;
+	public final Integer integerValue;
+	
+	private AppConstants(String stringValue) {
+        this.stringValue = stringValue;
+		this.integerValue = null;
+    }
+	
+	private AppConstants(Integer integerValue) {
+        this.stringValue = String.valueOf(integerValue);
+		this.integerValue = integerValue;
     }
 	
 }
