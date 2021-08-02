@@ -44,7 +44,7 @@ public class EmployeeIOModel {
 	private String updatedOn;
 	
 	@JsonProperty("address")
-	private List<AddressModel> address = null;
+	private List<AddressIOModel> address = null;
 	
 	@JsonProperty("startDate")
 	private String startDate;
@@ -65,8 +65,7 @@ public class EmployeeIOModel {
 		this.isresponseModel = isresponseModel;
 	}
 	
-	@JsonIgnore
-	private boolean isresponseModel;
+	@JsonIgnore private boolean isresponseModel;
 
 	public String getEmpId() {
 		return empId;
@@ -156,11 +155,11 @@ public class EmployeeIOModel {
 		this.updatedOn = updatedOn;
 	}
 
-	public List<AddressModel> getAddress() {
+	public List<AddressIOModel> getAddress() {
 		return address;
 	}
 
-	public void setAddress(List<AddressModel> address) {
+	public void setAddress(List<AddressIOModel> address) {
 		this.address = address;
 	}
 	
@@ -199,8 +198,8 @@ public class EmployeeIOModel {
 	@Override
 	public String toString() {
 
-		StringBuffer buffer = new StringBuffer()
-				.append((isresponseModel) ? "EmployeeResponse: {\n" : "EmployeeRequest: {\n")
+		StringBuffer buffer = new StringBuffer("Employee ")
+				.append((isresponseModel) ? "Response :" : "Request :").append(" {\n")
 				.append("EmployeeId: ").append(this.empId).append(",/n")
 				.append("EmployeeName: ").append(this.empName).append(",/n")
 				.append("BirthDate: ").append(this.birthDate).append(",/n")

@@ -2,16 +2,16 @@ package com.apps.org.model;
 
 public class UserDTO {
 	
-	private String username;
+	private String name;
+	private String email;
 	private String password;
-	private String createdBy;
 
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPassword() {
@@ -22,13 +22,12 @@ public class UserDTO {
 		this.password = password;
 	}
 
-	public String getCreatedBy() {
-		return createdBy;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	
-	
+
 }

@@ -1,4 +1,4 @@
-package com.apps.org.dao;
+package com.apps.org.dao.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.apps.org.entity.DAOUser;
 
 @Repository
-public interface UserDao extends CrudRepository<DAOUser, Integer> {
-	public DAOUser findByUsername(String username);
+public interface UserRepository extends CrudRepository<DAOUser, Integer> {
+	public DAOUser findByName(String name);
 }

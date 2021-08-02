@@ -3,8 +3,10 @@ package com.apps.org.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -14,7 +16,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "city", uniqueConstraints = @UniqueConstraint(columnNames = {"city_id"}) )
+@Table(name = "city", uniqueConstraints = @UniqueConstraint(columnNames = {"city_id", "state_id", "zip_code", "std_code"}) ) //add "state_id" later
 public class City extends Auditable<String> implements Serializable {
 
 	private static final long serialVersionUID = 4926468583005150705L;
@@ -29,20 +31,24 @@ public class City extends Auditable<String> implements Serializable {
 	private String cityName;
 	
 	@NotNull
-	@Column(name = "zip_code", unique=true, nullable=false)
-	private Integer zipCode;
+	@Column(name = "zip_code", nullable=false)
+	private String zipCode;
 	
 	@NotNull
-	@Column(name = "std_code", unique=true, nullable=false)
-	private Integer stdCode;
+	@Column(name = "std_code", nullable=false)
+	private String stdCode;
 	
 	@NotNull
 	@Column(name = "sub_division_code")
-	private Integer subDivisionCode; 		//cityId of division
+	private Long subDivisionCode; 		//cityId of division
 	
-	@ManyToOne	// Many cities can be associated with One State.
-	@JoinColumn(name="state_id", referencedColumnName = "state_id")
+	@ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.EAGER)	// Many cities can be associated with One State.
+	@JoinColumn(name="state_id", referencedColumnName = "state_id", nullable=false)
 	private State state;
+	
+	@NotNull
+	@Column(name = "is_capital", nullable=false)
+	private Boolean isCapital;
 
 	public Long getCityId() {
 		return cityId;
@@ -60,11 +66,11 @@ public class City extends Auditable<String> implements Serializable {
 		this.cityName = cityName;
 	}
 
-	public Integer getZipCode() {
+	public String getZipCode() {
 		return zipCode;
 	}
 
-	public void setZipCode(Integer zipCode) {
+	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
 
@@ -76,25 +82,33 @@ public class City extends Auditable<String> implements Serializable {
 		this.state = state;
 	}
 
-	public Integer getStdCode() {
+	public String getStdCode() {
 		return stdCode;
 	}
 
-	public void setStdCode(Integer stdCode) {
+	public void setStdCode(String stdCode) {
 		this.stdCode = stdCode;
 	}
 
-	public Integer getSubDivisionCode() {
+	public Long getSubDivisionCode() {
 		return subDivisionCode;
 	}
 
-	public void setSubDivisionCode(Integer subDivisionCode) {
+	public void setSubDivisionCode(Long subDivisionCode) {
 		this.subDivisionCode = subDivisionCode;
+	}
+
+	public Boolean getIsCapital() {
+		return isCapital;
+	}
+
+	public void setIsCapital(Boolean isCapital) {
+		this.isCapital = isCapital;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cityId, cityName, zipCode);
+		return Objects.hash(cityName, zipCode, isCapital);
 	}
 
 	@Override
@@ -112,7 +126,8 @@ public class City extends Auditable<String> implements Serializable {
 	public String toString() {
 		StringBuffer builder = new StringBuffer("City { ");
 		builder.append("cityId=").append(cityId).append(", cityName=").append(cityName).append(", zipCode=")
-				.append(zipCode).append(", state=").append(state).append(" }");
+				.append(zipCode).append(", state=").append(state)
+				.append(" }");
 		return builder.toString();
 	}
 	

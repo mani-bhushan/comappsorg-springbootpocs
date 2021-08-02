@@ -26,6 +26,10 @@ public class PageResponse {
 	@JsonInclude(Include.NON_EMPTY)
 	private EmployeeResponse employeeResponse;
 	
+	@JsonProperty("cityResponse")
+	@JsonInclude(Include.NON_EMPTY)
+	private CityResponse cityResponse;
+	
 	
 	public EmployeeResponse getEmployeeResponse() {
 		return this.employeeResponse;
@@ -43,6 +47,14 @@ public class PageResponse {
 		this.errorResponse = errorResponse; 
 	}
 	
+	public CityResponse getCityResponse() {
+		return cityResponse;
+	}
+
+	public void setCityResponse(CityResponse cityResponse) {
+		this.cityResponse = cityResponse;
+	}
+
 	public String getCurrentPage() {
 		return currentPage;
 	}

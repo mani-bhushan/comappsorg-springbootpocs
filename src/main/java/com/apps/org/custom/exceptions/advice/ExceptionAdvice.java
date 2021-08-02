@@ -1,4 +1,4 @@
-package com.apps.org.exceptions.advice;
+package com.apps.org.custom.exceptions.advice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.apps.org.exceptions.handler.CustomExceptionHandler;
+import com.apps.org.custom.exceptions.handler.CustomExceptionHandler;
 
 @ControllerAdvice
 public class ExceptionAdvice {

@@ -5,9 +5,9 @@ import java.util.Map;
 
 public enum AppElements {
 
-	EMPLOYEE_DB_EXCEPTION("Employee DB Exception", 7001),
-	ALREADY_EXISTING_EMPLOYEE("Already Existing Employee", 7002),
-	MISSING_DATA_EXCEPTION("Missing Fields : ", 4004);
+	DB_EXCEPTION (" DB Exception", 7001),
+	ALREADY_EXISTING ("Already Existing ", 7002),
+	FIELDS_MISSING ("Missing Fields : ", 4004);
 
 
 	private static final Map<Integer, AppElements> BY_CODE = new HashMap<>();

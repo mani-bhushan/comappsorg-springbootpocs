@@ -17,18 +17,29 @@ public class DAOUser extends Auditable<String> implements Serializable {
 	private long id;
 	
 	@Column
-	private String username;
+	private String name;
+	
+	@Column
+	private String email;
 	
 	@Column
 	@JsonIgnore
 	private String password;
 
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {

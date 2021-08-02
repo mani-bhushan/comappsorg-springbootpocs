@@ -1,4 +1,4 @@
-package com.apps.org.exceptions;
+package com.apps.org.custom.exceptions;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;

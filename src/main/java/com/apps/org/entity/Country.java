@@ -23,15 +23,15 @@ public class Country extends Auditable<String> implements Serializable {
 	@Id
 	@NotNull
 	@Column(name = "country_code", unique=true, nullable=false)
-	private Integer countryCode;
+	private String countryCode;
 	
 	@NotNull
 	@Column(name = "country_name", unique=true, nullable=false)
 	private String countryName;
 	
-	@NotNull
-	@Column(name = "origin_name", unique=true, nullable=false)
-	private String originName;
+//	@NotNull
+//	@Column(name = "origin_name", unique=true, nullable=false)
+//	private String originName;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="country", orphanRemoval = false)
 	private Set<State> states;
@@ -45,21 +45,21 @@ public class Country extends Auditable<String> implements Serializable {
 		this.countryName = countryName;
 	}
 
-	public Integer getCountryCode() {
+	public String getCountryCode() {
 		return countryCode;
 	}
 
-	public void setCountryCode(Integer countryCode) {
+	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
 	}
 
-	public String getOriginName() {
-		return originName;
-	}
-
-	public void setOriginName(String originName) {
-		this.originName = originName;
-	}
+//	public String getOriginName() {
+//		return originName;
+//	}
+//
+//	public void setOriginName(String originName) {
+//		this.originName = originName;
+//	}
 
 	public Set<State> getStates() {
 		return states;
@@ -71,7 +71,7 @@ public class Country extends Auditable<String> implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(countryCode, countryName, originName);
+		return Objects.hash(countryCode, countryName);
 	}
 
 	@Override
@@ -82,14 +82,15 @@ public class Country extends Auditable<String> implements Serializable {
 			return false;
 		Country other = (Country) obj;
 		return Objects.equals(countryCode, other.countryCode) && Objects.equals(countryName, other.countryName)
-				&& Objects.equals(originName, other.originName);
+				//&& Objects.equals(originName, other.originName)
+				;
 	}
 
 	@Override
 	public String toString() {
 		StringBuffer builder = new StringBuffer("Country { ")
-				.append(", countryName=").append(countryName).append(", countryCode=").append(countryCode)
-				.append(", originName=").append(originName)
+				.append("countryName=").append(countryName).append(", countryCode=").append(countryCode)
+				//.append(", originName=").append(originName)
 				.append(" }");
 		return builder.toString();
 	}

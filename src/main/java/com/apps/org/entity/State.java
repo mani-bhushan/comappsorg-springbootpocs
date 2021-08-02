@@ -33,14 +33,14 @@ public class State extends Auditable<String> implements Serializable {
 	private String stateName;
 	
 	@NotNull
-	@Column(name = "is_special", nullable=false)
-	private Boolean isSpecial;
+	@Column(name = "is_special_State", nullable=false)
+	private Boolean isSpecialState;
 	
 	@ManyToOne 								// Many States can be associated with One Country.
 	@JoinColumn(name="country_code", referencedColumnName = "country_code")
 	private Country country;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="state", orphanRemoval = false)		//One State can be associated with multiple cities.
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy="state", orphanRemoval = false)		//One State can be associated with multiple cities.
 	private Set<City> cities;
 
 	public Long getStateId() {
@@ -75,17 +75,17 @@ public class State extends Auditable<String> implements Serializable {
 		this.cities = cities;
 	}
 
-	public Boolean getIsSpecial() {
-		return isSpecial;
+	public Boolean getIsSpecialState() {
+		return isSpecialState;
 	}
 
-	public void setIsSpecial(Boolean isSpecial) {
-		this.isSpecial = isSpecial;
+	public void setIsSpecialState(Boolean isSpecialState) {
+		this.isSpecialState = isSpecialState;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash( stateId, stateName, isSpecial );
+		return Objects.hash( stateName, isSpecialState );
 	}
 
 	@Override
@@ -96,14 +96,14 @@ public class State extends Auditable<String> implements Serializable {
 			return false;
 		State other = (State) obj;
 		return Objects.equals(stateId, other.stateId) && Objects.equals(stateName, other.stateName)
-				&& Objects.equals(isSpecial, other.isSpecial);
+				&& Objects.equals(isSpecialState, other.isSpecialState);
 	}
 
 	@Override
 	public String toString() {
 		StringBuffer builder = new StringBuffer("State { ")
 				.append("stateId=").append(stateId).append(", stateName=").append(stateName)
-				.append(", isSpecial=").append(isSpecial)
+				.append(", isSpecial=").append(isSpecialState)
 				.append(", country=").append(country).append(", cities=").append(cities)
 				.append(" }");
 		return builder.toString();

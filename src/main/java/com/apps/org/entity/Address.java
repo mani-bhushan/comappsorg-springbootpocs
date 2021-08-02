@@ -50,6 +50,10 @@ public class Address extends Auditable<String> implements Serializable {
 	@Column(name = "country_code", nullable = false)
 	private Integer countryCode;
 	
+	@NotNull
+	@Column(name = "zip_code", nullable = false)
+	private Integer zipCode;
+	
 	@Column(name = "mobile", nullable = false)
 	private Long mobile;
 	
@@ -66,6 +70,7 @@ public class Address extends Auditable<String> implements Serializable {
 	private String lon;
 	
 	@NotNull
+	//@DefaultY
 	@Column(name = "is_primary", nullable = false)
 	private Boolean isPrimary;
 	
@@ -178,6 +183,14 @@ public class Address extends Auditable<String> implements Serializable {
 		this.countryCode = countryCode;
 	}
 
+	public Integer getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(Integer zipCode) {
+		this.zipCode = zipCode;
+	}
+
 	public Integer getStdCode() {
 		return stdCode;
 	}
@@ -196,7 +209,7 @@ public class Address extends Auditable<String> implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(addressId, addressLine, streetName, city, state, country, countryCode);
+		return Objects.hash(addressId, addressLine, streetName, city, state, country, countryCode, zipCode);
 	}
 	
 	
@@ -208,11 +221,12 @@ public class Address extends Auditable<String> implements Serializable {
 		if (!(obj instanceof Address))
 			return false;
 		Address other = (Address) obj;
-		return Objects.equals(addressId, other.addressId) && Objects.equals(addressLine, other.addressLine)
+		return  Objects.equals(addressLine, other.addressLine)
 				&& Objects.equals(isPrimary, other.isPrimary) && Objects.equals(houseNumber, other.houseNumber)
 				&& Objects.equals(mobile, other.mobile) && Objects.equals(streetName, other.streetName)
 				&& Objects.equals(city, other.city) && Objects.equals(state, other.state)
-				&& Objects.equals(country, other.country) && Objects.equals(countryCode, other.countryCode);
+				&& Objects.equals(country, other.country) && Objects.equals(countryCode, other.countryCode)
+				&& Objects.equals(zipCode, other.zipCode);
 	}
 
 	@Override

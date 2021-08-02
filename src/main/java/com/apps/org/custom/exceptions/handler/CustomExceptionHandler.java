@@ -1,4 +1,4 @@
-package com.apps.org.exceptions.handler;
+package com.apps.org.custom.exceptions.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

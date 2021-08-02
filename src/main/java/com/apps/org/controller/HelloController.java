@@ -1,7 +1,14 @@
 package com.apps.org.controller;
 
-public interface HelloController {
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-	public String index();
-	
+@RestController	
+@RequestMapping("/api/v1")
+public class HelloController {
+
+	@RequestMapping("/hello")
+	public String index() {
+		return "Greetings from Spring Boot!";
+	}
 }

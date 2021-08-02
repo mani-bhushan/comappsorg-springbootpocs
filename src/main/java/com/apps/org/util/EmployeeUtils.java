@@ -10,11 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 
 import com.apps.org.entity.Address;
-import com.apps.org.entity.City;
-import com.apps.org.entity.Country;
 import com.apps.org.entity.Employee;
-import com.apps.org.entity.State;
-import com.apps.org.model.AddressModel;
 import com.apps.org.model.EmployeeIOModel;
 import com.apps.org.model.Errors;
 import com.apps.org.model.response.EmployeeResponse;
@@ -59,6 +55,7 @@ public class EmployeeUtils {
 			address.setLon(addressReq.getLon());
 			address.setCountryCode(addressReq.getCountryCode());
 			address.setMobile(addressReq.getMobile());
+			address.setZipCode(addressReq.getZipCode());
 			address.setEmployee(employee);
 			address.setIsPrimary(AppConstants.Y.stringValue.equalsIgnoreCase(addressReq.getIsPrimary()));
 			
@@ -67,30 +64,6 @@ public class EmployeeUtils {
 		});
 		
 		return addressList;
-	}
-	
-	public static City populateCityEntityFromAddressModel(AddressModel addressReq) {
-		City city = new City();
-		city.setCityName(addressReq.getCity());
-		city.setZipCode(addressReq.getZipCode());
-		city.setStdCode(addressReq.getStdCode());
-		city.setState(populateStateEntityFromAddressModel(addressReq));
-		return city;
-	}
-	
-	public static State populateStateEntityFromAddressModel(AddressModel addressReq) {
-		State state = new State();
-		state.setStateName(addressReq.getState());
-		state.setCountry(populateCountryEntityFromAddressModel(addressReq));
-		return state;
-	}
-	
-	public static Country populateCountryEntityFromAddressModel(AddressModel addressReq) {
-		Country country = new Country();
-		country.setCountryName(addressReq.getCountry());
-		country.setCountryCode(addressReq.getCountryCode());
-		//country.setOriginName(req.getNation());
-		return country;
 	}
 
 	public static PageResponse populateResponse(List<Employee> employees) {
@@ -117,7 +90,7 @@ public class EmployeeUtils {
 
 	}
 
-	public static EmployeeIOModel populateEmployeeResponseModel(EmployeeIOModel employeeRequest) {
+	public static EmployeeIOModel populateEmployeeErrorsInResponseModel(EmployeeIOModel employeeRequest) {
 		EmployeeIOModel employeeIOModel = new EmployeeIOModel(true);
 		employeeIOModel.setEmpId(employeeRequest.getEmpId());
 		employeeIOModel.setEmpName(employeeRequest.getEmpName());
@@ -147,7 +120,7 @@ public class EmployeeUtils {
 		StringBuffer buffer = new StringBuffer(errorMessage);
 
 		if (null != employeeresponse) {
-			EmployeeIOModel modelResponse = populateEmployeeResponseModel(employeeresponse);
+			EmployeeIOModel modelResponse = populateEmployeeErrorsInResponseModel(employeeresponse);
 			errors.setEmployeeResponse(modelResponse);
 		}
 		if (null != ex) {
@@ -255,8 +228,8 @@ public class EmployeeUtils {
 		
 		if(StringUtils.isNotBlank(errorData)) {
 			Errors errors = new Errors();
-			errors.setErrorCode(AppElements.MISSING_DATA_EXCEPTION.code);
-			errors.setMessage(AppElements.MISSING_DATA_EXCEPTION.message + cleanUpCommas(errorData.toString()));
+			errors.setErrorCode(AppElements.FIELDS_MISSING.code);
+			errors.setMessage(AppElements.FIELDS_MISSING.message + cleanUpCommas(errorData.toString()));
 			errorResponse.add(errors);
 			return false;
 		}
