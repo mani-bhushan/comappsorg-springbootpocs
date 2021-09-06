@@ -64,9 +64,10 @@ public class CityServiceImpl implements CityService {
 						Country country = countryRepository.findByCountryCode(requestObj.getCountryCode());
 						State state = stateRepository.findByStateName(requestObj.getState());
 
-						CityUtils.populateCountryEntity(country, requestObj);
-						CityUtils.populateStateEntity(state, requestObj);
-						CityUtils.populateCityEntityFromAddressRequest(city, requestObj);
+						country = CityUtils.populateCountryEntity(country, requestObj);
+						state = CityUtils.populateStateEntity(state, requestObj);
+						city = CityUtils.populateCityEntityFromAddressRequest(city, requestObj);
+						
 						city.setState(state);
 						state.setCountry(country);
 						state.getCities().add(city);

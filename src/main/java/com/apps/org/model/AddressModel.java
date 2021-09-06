@@ -1,5 +1,7 @@
 package com.apps.org.model;
 
+import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -9,33 +11,35 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 @JsonRootName("address")
 @JsonInclude(Include.NON_NULL)
 public class AddressModel {
-	
-	@JsonProperty("countryCode") private String countryCode;
-	@JsonProperty("country") private String country;
-	
-	@JsonProperty("state") private String state;
-	@JsonProperty("stateId") private Long stateId;
-	@JsonProperty("isSpecialState") private String isSpecialState;
-	
-	@JsonProperty("cityId") private Long cityId;
-	@JsonProperty("city") private String city;
-	@JsonProperty("isCapital") private String isCapital;
-	@JsonProperty("zipCode") private String zipCode;
-	@JsonProperty("stdCode") private String stdCode;
-	@JsonProperty("subDivisionCode") private Long subDivisionCode;
+
+	@JsonIgnore private boolean isresponseModel;
 
 	public AddressModel() { }
 
 	public AddressModel(boolean isresponseModel) {
 		this.isresponseModel = isresponseModel;
 	}
-	@JsonIgnore private boolean isresponseModel;
+	
+	@JsonProperty("countryCode") protected Integer countryCode;
+	@JsonProperty("country") protected String country;
+	
+	@JsonProperty("state") protected String state;
+	@JsonProperty("stateId") protected Long stateId;
+	@JsonProperty("isSpecialState") protected String isSpecialState;
+	
+	@JsonProperty("cityId") protected Long cityId;
+	@JsonProperty("city") protected String city;
+	@JsonProperty("isCapital") private String isCapital;
+	@JsonProperty("zipCode") @Size(max=6, min=1, message="Please give a valid zip-code") protected Integer zipCode;
+	@JsonProperty("stdCode") @Size(max=4, min=1, message="Please give a valid std-code") protected Integer stdCode;
+	@JsonProperty("subDivisionCode") protected Long subDivisionCode;
 
-	public String getCountryCode() {
+
+	public Integer getCountryCode() {
 		return countryCode;
 	}
 
-	public void setCountryCode(String countryCode) {
+	public void setCountryCode(Integer countryCode) {
 		this.countryCode = countryCode;
 	}
 
@@ -95,19 +99,19 @@ public class AddressModel {
 		this.isCapital = isCapital;
 	}
 
-	public String getZipCode() {
+	public Integer getZipCode() {
 		return zipCode;
 	}
 
-	public void setZipCode(String zipCode) {
+	public void setZipCode(Integer zipCode) {
 		this.zipCode = zipCode;
 	}
 
-	public String getStdCode() {
+	public Integer getStdCode() {
 		return stdCode;
 	}
 
-	public void setStdCode(String stdCode) {
+	public void setStdCode(Integer stdCode) {
 		this.stdCode = stdCode;
 	}
 

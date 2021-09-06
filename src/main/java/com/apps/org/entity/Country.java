@@ -23,7 +23,7 @@ public class Country extends Auditable<String> implements Serializable {
 	@Id
 	@NotNull
 	@Column(name = "country_code", unique=true, nullable=false)
-	private String countryCode;
+	private Integer countryCode;
 	
 	@NotNull
 	@Column(name = "country_name", unique=true, nullable=false)
@@ -45,11 +45,11 @@ public class Country extends Auditable<String> implements Serializable {
 		this.countryName = countryName;
 	}
 
-	public String getCountryCode() {
+	public Integer getCountryCode() {
 		return countryCode;
 	}
 
-	public void setCountryCode(String countryCode) {
+	public void setCountryCode(Integer countryCode) {
 		this.countryCode = countryCode;
 	}
 

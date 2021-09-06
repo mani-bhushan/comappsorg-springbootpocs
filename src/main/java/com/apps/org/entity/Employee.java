@@ -170,6 +170,8 @@ public class Employee extends BaseEntity implements Serializable {
 				.append(", addressList=").append(addressList)
 				.append(" }");
 		return builder.toString();
+		
 	}
+	
 
 }

@@ -39,12 +39,12 @@ public class JwtAuthenticationController {
 
 	
 	@RequestMapping(value = "/auth", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-		logger.info("Authentication Request received : {}", authenticationRequest);
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest jwtRequest) throws Exception {
+		logger.info("Authentication Request received : {}", jwtRequest);
 
-		authenticate(authenticationRequest.getName(), authenticationRequest.getPassword());
+		authenticate(jwtRequest.getName(), jwtRequest.getPassword());
 
-		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getName());
+		final UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getName());
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 

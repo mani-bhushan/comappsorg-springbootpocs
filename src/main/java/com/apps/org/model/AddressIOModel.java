@@ -2,53 +2,29 @@ package com.apps.org.model;
 
 import java.util.Objects;
 
-import javax.validation.constraints.Size;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 @JsonRootName("address")
-public class AddressIOModel {
+public class AddressIOModel extends AddressModel {
+
+	@JsonIgnore private boolean isresponseModel;
 	
 	public AddressIOModel () {}
-	
-	@JsonIgnore private boolean isresponseModel;
 	
 	public AddressIOModel (boolean isresponseModel) {
 		this.isresponseModel = isresponseModel;
 	}
 	
 	@JsonProperty("addressLine") private String addressLine;
-	
 	@JsonProperty("houseNumber") private String houseNumber;
-	
 	@JsonProperty("streetName") private String streetName;
-	
 	@JsonProperty("lat") private String lat;
-	
 	@JsonProperty("lon") private String lon;
-	
-	@JsonProperty("mobile") private Long mobile;
-	
-	@JsonProperty("country") private String country;
-	
-	@JsonProperty("state") private String state;
-	
-	@JsonProperty("city") private String city;
-
-	@JsonProperty("countryCode") private Integer countryCode;
-	
-	@JsonProperty("zipCode") @Size(max=6, min=1, message="Please give a valid zip-code") private Integer zipCode;
-	
 	@JsonProperty("isPrimary") private String isPrimary;
-	
-	@JsonProperty("stdCode") private Integer stdCode;
-	
 	@JsonProperty("telephone") private Long telephone;
-	
-	@JsonProperty("subDivisionCode") private Integer subDivisionCode;
-
+	@JsonProperty("mobile") private Long mobile;
 
 	public String getAddressLine() {
 		return addressLine;
@@ -90,52 +66,12 @@ public class AddressIOModel {
 		this.lon = lon;
 	}
 
-	public Integer getCountryCode() {
-		return countryCode;
-	}
-
-	public void setCountryCode(Integer countryCode) {
-		this.countryCode = countryCode;
-	}
-
 	public Long getMobile() {
 		return mobile;
 	}
 
 	public void setMobile(Long mobile) {
 		this.mobile = mobile;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-	
-	public Integer getZipCode() {
-		return zipCode;
-	}
-
-	public void setZipCode(Integer zipCode) {
-		this.zipCode = zipCode;
 	}
 	
 	public String getIsPrimary() {
@@ -145,15 +81,7 @@ public class AddressIOModel {
 	public void setIsPrimary(String isPrimary) {
 		this.isPrimary = isPrimary;
 	}
-
-	public Integer getStdCode() {
-		return stdCode;
-	}
-
-	public void setStdCode(Integer stdCode) {
-		this.stdCode = stdCode;
-	}
-
+	
 	public Long getTelephone() {
 		return telephone;
 	}
@@ -162,13 +90,6 @@ public class AddressIOModel {
 		this.telephone = telephone;
 	}
 
-	public Integer getSubDivisionCode() {
-		return subDivisionCode;
-	}
-
-	public void setSubDivisionCode(Integer subDivisionCode) {
-		this.subDivisionCode = subDivisionCode;
-	}
 
 	@Override
 	public int hashCode() {

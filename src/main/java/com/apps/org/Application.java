@@ -8,8 +8,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-/*@ComponentScan({"com.apps.org.config", "com.apps.org.controller", "com.apps.org.dao", 
-	"com.apps.org.entity", "com.apps.org.model", "com.apps.org.service", "com.apps.org.springboot",  "com.apps.org.util", })*/
+/*@ComponentScan( basePackages = {
+	"com.apps.org.custom.configurations.*", 
+	"com.apps.org.controller.*", 
+	"com.apps.org.dao.*", 
+	"com.apps.org.entity.*", 
+	"com.apps.org.model.*",
+	"com.apps.org.service.*", 
+	"com.apps.org.util.*"
+	})*/
 @SpringBootApplication
 public class Application {
 	

@@ -32,11 +32,11 @@ public class City extends Auditable<String> implements Serializable {
 	
 	@NotNull
 	@Column(name = "zip_code", nullable=false)
-	private String zipCode;
+	private Integer zipCode;
 	
 	@NotNull
 	@Column(name = "std_code", nullable=false)
-	private String stdCode;
+	private Integer stdCode;
 	
 	@NotNull
 	@Column(name = "sub_division_code")
@@ -66,11 +66,11 @@ public class City extends Auditable<String> implements Serializable {
 		this.cityName = cityName;
 	}
 
-	public String getZipCode() {
+	public Integer getZipCode() {
 		return zipCode;
 	}
 
-	public void setZipCode(String zipCode) {
+	public void setZipCode(Integer zipCode) {
 		this.zipCode = zipCode;
 	}
 
@@ -82,11 +82,11 @@ public class City extends Auditable<String> implements Serializable {
 		this.state = state;
 	}
 
-	public String getStdCode() {
+	public Integer getStdCode() {
 		return stdCode;
 	}
 
-	public void setStdCode(String stdCode) {
+	public void setStdCode(Integer stdCode) {
 		this.stdCode = stdCode;
 	}
 
@@ -118,15 +118,18 @@ public class City extends Auditable<String> implements Serializable {
 		if (!(obj instanceof City))
 			return false;
 		City other = (City) obj;
-		return Objects.equals(cityId, other.cityId) && Objects.equals(cityName, other.cityName)
+		return Objects.equals(cityId, other.cityId) 
+				&& Objects.equals(cityName, other.cityName)
 				&& Objects.equals(zipCode, other.zipCode);
 	}
 
 	@Override
 	public String toString() {
 		StringBuffer builder = new StringBuffer("City { ");
-		builder.append("cityId=").append(cityId).append(", cityName=").append(cityName).append(", zipCode=")
-				.append(zipCode).append(", state=").append(state)
+		builder.append("cityId=").append(cityId)
+				.append(", cityName=").append(cityName)
+				.append(", zipCode=").append(zipCode)
+				.append(", state=").append(state)
 				.append(" }");
 		return builder.toString();
 	}

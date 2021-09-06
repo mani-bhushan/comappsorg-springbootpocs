@@ -2,6 +2,7 @@ package com.apps.org.model;
 
 import java.util.List;
 
+import com.apps.org.custom.annotations.Age;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -17,6 +18,7 @@ public class EmployeeIOModel {
 	private String empName;
 	
 	@JsonProperty("birthDate")
+	@Age(value=18)
 	private String birthDate;
 	
 	@JsonProperty("hireDate")
@@ -83,10 +85,12 @@ public class EmployeeIOModel {
 		this.empName = empName;
 	}
 
+	@Age(value=18)
 	public String getBirthDate() {
 		return birthDate;
 	}
 
+	@Age(value=18)
 	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
 	}

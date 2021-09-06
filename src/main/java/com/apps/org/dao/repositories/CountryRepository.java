@@ -10,7 +10,7 @@ import com.apps.org.entity.Country;
 @Repository
 public interface CountryRepository extends JpaRepository<Country, String> {
 
-	public Country findByCountryCode(String countryCode);
+	public Country findByCountryCode(Integer countryCode);
 
 	public Country findByCountryName(String countryName);
 

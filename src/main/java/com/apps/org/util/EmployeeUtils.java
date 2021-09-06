@@ -179,17 +179,8 @@ public class EmployeeUtils {
 					errorData.append("IsPrimary : Please provide a primary address, ");
 				}
 			}
-			
-//			if (StringUtils.isBlank(address.getIsPrimary())) {
-//				if (AppConstants.ONE.integerValue == requestObj.getAddress().size()) {
-//					address.setIsPrimary(AppConstants.Y.stringValue);
-//				} else {
-//					address.setIsPrimary(AppConstants.N.stringValue);
-//				}
-//			}
-
 			if (StringUtils.isBlank(address.getAddressLine())) {
-				errorData.append("Address Line, ");
+				errorData.append("AddressLine, ");
 			}
 			if (StringUtils.isBlank(address.getHouseNumber())) {
 				errorData.append("HouseNumber, ");
@@ -210,19 +201,19 @@ public class EmployeeUtils {
 				errorData.append("CountryCode, ");
 			}
 			if (address.getCountryCode() < 0) {
-				errorData.append("CountryCode<0, ");
+				errorData.append("CountryCode <  0, ");
 			}
 			if (null == address.getMobile()) {
 				errorData.append("MobileNumber, ");
 			}
 			if (address.getMobile() < 0) {
-				errorData.append("MobileNumber<0, ");
+				errorData.append("MobileNumber < 0, ");
 			}
 			if (null == address.getZipCode()) {
 				errorData.append("ZipCode, ");
 			}
 			if (address.getZipCode() < 0) {
-				errorData.append("ZipCode<0, ");
+				errorData.append("ZipCode < 0, ");
 			}
 		});
 		

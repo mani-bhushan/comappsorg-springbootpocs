@@ -8,4 +8,6 @@ import com.apps.org.entity.DAOUser;
 @Repository
 public interface UserRepository extends CrudRepository<DAOUser, Integer> {
 	public DAOUser findByName(String name);
+	
+	public DAOUser findByEmail(String email);
 }

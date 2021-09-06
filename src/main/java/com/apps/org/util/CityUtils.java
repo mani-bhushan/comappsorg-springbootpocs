@@ -67,7 +67,7 @@ public class CityUtils {
 		if (null == requestObj.getCountryCode()) {
 			errorData.append("Country Code : Please provide country code, ");
 		}
-		if (Integer.parseInt(requestObj.getCountryCode()) < AppConstants.ONE.integerValue) {
+		if (requestObj.getCountryCode() < AppConstants.ONE.integerValue) {
 			errorData.append("Country Code : Please provide country code greater than zero (0), ");
 		}
 		if (StringUtils.isBlank(requestObj.getIsCapital())) {
@@ -85,7 +85,7 @@ public class CityUtils {
 		if (null == requestObj.getZipCode()) {
 			errorData.append("Zip Code : Please provide zip-code, ");
 		}
-		if (Integer.parseInt(requestObj.getZipCode()) < AppConstants.ONE.integerValue) {
+		if (requestObj.getZipCode() < AppConstants.ONE.integerValue) {
 			errorData.append("Zip Code : Please provide zip-code greater than zero (0), ");
 		}
 
